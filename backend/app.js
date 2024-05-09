@@ -1,6 +1,7 @@
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const axios = require("axios");
+const cors = require("cors");
 const config = require("./config/config");
 const app = express();
 
@@ -8,9 +9,11 @@ const apilimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
 });
+
 // Middleware
 app.use(express.json()); // Pass incomming json data
 app.use(apilimiter);
+app.use(cors({ origin: ["http://localhost:5173"] }));
 
 // Conversion routes
 app.post("/api/convert", async (req, res) => {
